@@ -1,0 +1,15 @@
+[
+  {
+    "id": "30071dacbdf4",
+    "name": "Ассистент поддержки",
+    "model": "deepseek-v4-pro",
+    "temperature": 0.3,
+    "max_tokens": 8192,
+    "thinking": false,
+    "reasoning_effort": "low",
+    "rag_top_k": 4,
+    "rag_threshold": 0.55,
+    "history_limit": 12,
+    "system_prompt_extra": ""
+  }
+]

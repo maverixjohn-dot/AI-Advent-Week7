@@ -1,0 +1,35 @@
+# Развёртывание на VPS: docker compose up -d --build
+# Доступ: http://<IP-VPS>:8550  (домена нет, HTTPS не настраиваем)
+services:
+  mcp-server:
+    build: .
+    command: ["python", "-m", "mcp_server.server"]
+    environment:
+      MCP_TRANSPORT: streamable-http
+      MCP_PORT: "8001"
+      STORAGE_DIR: /data
+    volumes:
+      - support_data:/data
+    restart: unless-stopped
+
+  app:
+    build: .
+    depends_on:
+      - mcp-server
+    ports:
+      - "8550:8550"
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: "8550"
+      MCP_URL: http://mcp-server:8001/mcp
+      STORAGE_DIR: /data
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}   # из .env рядом с этим файлом
+    volumes:
+      - support_data:/data
+    restart: unless-stopped
+
+volumes:
+  # Диалоги, тикеты, база знаний, логи, индекс FAISS.
+  # Каждый JSON-файл пишет только один сервис (тикеты — mcp-server,
+  # диалоги/оценки/логи — app), поэтому общий том безопасен.
+  support_data:

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "u-ivan",
+    "name": "Иван Петров",
+    "email": "ivan.petrov@example.com",
+    "company": "ООО «Север»",
+    "plan": "pro",
+    "product_version": "4.2.1",
+    "created_at": "2026-03-12T10:00:00"
+  },
+  {
+    "id": "u-maria",
+    "name": "Мария Соколова",
+    "email": "maria.s@example.com",
+    "company": "ИП Соколова",
+    "plan": "basic",
+    "product_version": "4.1.0",
+    "created_at": "2026-04-02T09:30:00"
+  },
+  {
+    "id": "u-oleg",
+    "name": "Олег Громов",
+    "email": "oleg.gromov@example.com",
+    "company": "ООО «Ромашка»",
+    "plan": "enterprise",
+    "product_version": "4.2.0",
+    "created_at": "2026-01-20T14:15:00"
+  },
+  {
+    "id": "u-anna",
+    "name": "Анна Лебедева",
+    "email": "anna.lebedeva@example.com",
+    "company": "АО «Вектор»",
+    "plan": "pro",
+    "product_version": "4.2.1",
+    "created_at": "2026-05-11T11:45:00"
+  },
+  {
+    "id": "u-timur",
+    "name": "Тимур Алиев",
+    "email": "timur.aliev@example.com",
+    "company": "ИП Алиев",
+    "plan": "basic",
+    "product_version": "4.0.3",
+    "created_at": "2026-06-01T08:05:00"
+  }
+]

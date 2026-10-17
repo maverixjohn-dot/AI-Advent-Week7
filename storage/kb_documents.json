@@ -1,0 +1,56 @@
+[
+  {
+    "id": "c9a4c872dac4",
+    "name": "account",
+    "filename": "account.md",
+    "chunk_count": 5,
+    "status": "indexed",
+    "error": "",
+    "uploaded_at": "2026-10-17T17:53:15"
+  },
+  {
+    "id": "87a3d8ba2c1d",
+    "name": "auth",
+    "filename": "auth.md",
+    "chunk_count": 5,
+    "status": "indexed",
+    "error": "",
+    "uploaded_at": "2026-10-17T17:54:43"
+  },
+  {
+    "id": "e2858b6efa06",
+    "name": "billing",
+    "filename": "billing.md",
+    "chunk_count": 5,
+    "status": "indexed",
+    "error": "",
+    "uploaded_at": "2026-10-17T17:54:47"
+  },
+  {
+    "id": "efe2a98c1dc3",
+    "name": "errors",
+    "filename": "errors.md",
+    "chunk_count": 4,
+    "status": "indexed",
+    "error": "",
+    "uploaded_at": "2026-10-17T17:54:50"
+  },
+  {
+    "id": "c1143ae2a30e",
+    "name": "integrations",
+    "filename": "integrations.md",
+    "chunk_count": 4,
+    "status": "indexed",
+    "error": "",
+    "uploaded_at": "2026-10-17T17:54:53"
+  },
+  {
+    "id": "98582d3634ff",
+    "name": "mobile",
+    "filename": "mobile.md",
+    "chunk_count": 3,
+    "status": "indexed",
+    "error": "",
+    "uploaded_at": "2026-10-17T17:54:56"
+  }
+]

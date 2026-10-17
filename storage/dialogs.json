@@ -1,0 +1,216 @@
+[
+  {
+    "id": "9d653df848a1",
+    "user_id": "u-ivan",
+    "ticket_id": "t-1001",
+    "title": "Иван Петров · T-1001",
+    "status": "closed",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Не могу войти, ещё забыл пароль",
+        "created_at": "2026-10-17T22:34:20",
+        "sources": [],
+        "tool_calls": [],
+        "usage": {}
+      },
+      {
+        "role": "assistant",
+        "content": "Зафиксировал в тикете T-1001: добавил, что вы забыли пароль и нужен сброс, а также уточняющие вопросы для оператора.\n\nПока оператор разбирается, рекомендую:\n1. Запросить сброс пароля (письмо с `no-reply@kontur-uchet.ru`, проверьте «Спам»/«Промоакции»).\n2. После сброса — **полностью выйти и войти заново**, а не обновлять страницу.\n3. Отключить VPN/прокси на время входа.\n\nИсточники: errors.md, auth.md",
+        "created_at": "2026-10-17T22:34:20",
+        "sources": [
+          {
+            "doc": "errors.md",
+            "score": 0.8391
+          },
+          {
+            "doc": "auth.md",
+            "score": 0.8341
+          },
+          {
+            "doc": "auth.md",
+            "score": 0.8295
+          },
+          {
+            "doc": "auth.md",
+            "score": 0.8275
+          }
+        ],
+        "tool_calls": [
+          "add_ticket_comment"
+        ],
+        "usage": {
+          "prompt_tokens": 5374,
+          "completion_tokens": 625,
+          "total_tokens": 5999
+        }
+      },
+      {
+        "role": "user",
+        "content": "Отключил ВПН, заработало! Спасибо.",
+        "created_at": "2026-10-17T22:35:14",
+        "sources": [],
+        "tool_calls": [],
+        "usage": {}
+      },
+      {
+        "role": "assistant",
+        "content": "Готово, тикет T-1001 закрыт как решённый. Если снова возникнут проблемы со входом — обращайтесь.\n\nИсточники: errors.md",
+        "created_at": "2026-10-17T22:35:14",
+        "sources": [
+          {
+            "doc": "errors.md",
+            "score": 0.7994
+          },
+          {
+            "doc": "integrations.md",
+            "score": 0.795
+          },
+          {
+            "doc": "errors.md",
+            "score": 0.7909
+          },
+          {
+            "doc": "errors.md",
+            "score": 0.7881
+          }
+        ],
+        "tool_calls": [
+          "update_ticket_status"
+        ],
+        "usage": {
+          "prompt_tokens": 5189,
+          "completion_tokens": 130,
+          "total_tokens": 5319
+        }
+      }
+    ],
+    "created_at": "2026-10-17T22:33:07",
+    "closed_at": "2026-10-17T22:35:28"
+  },
+  {
+    "id": "72bdf7e07ee8",
+    "user_id": "u-ivan",
+    "ticket_id": "t-1006",
+    "title": "Иван Петров · T-1006",
+    "status": "closed",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Текст не влезает, когда решишь вопрос?",
+        "created_at": "2026-10-17T22:41:53",
+        "sources": [],
+        "tool_calls": [],
+        "usage": {}
+      },
+      {
+        "role": "assistant",
+        "content": "Ваш тикет T-1006 уже решён: дефект с пустыми колонками при экспорте в Excel исправлен в версии 4.2.1. Оператор ранее просил обновить приложение.\n\nПроверьте, что у вас установлена версия 4.2.1 (у вас в профиле указана 4.2.1). Если после обновления текст всё ещё не влезает — это может быть другая проблема (например, таймаут экспорта на больших периодах). В таком случае выгружайте помесячно или в CSV через «Данные → Из текста».\n\nЕсли проблема сохраняется на актуальной версии, скажите — зафиксирую новый тикет для оператора.\n\nИсточники: errors.md",
+        "created_at": "2026-10-17T22:41:53",
+        "sources": [
+          {
+            "doc": "errors.md",
+            "score": 0.8045
+          },
+          {
+            "doc": "auth.md",
+            "score": 0.7954
+          },
+          {
+            "doc": "errors.md",
+            "score": 0.7928
+          },
+          {
+            "doc": "mobile.md",
+            "score": 0.7923
+          }
+        ],
+        "tool_calls": [],
+        "usage": {
+          "prompt_tokens": 2018,
+          "completion_tokens": 178,
+          "total_tokens": 2196
+        }
+      },
+      {
+        "role": "user",
+        "content": "Проблема сохраняется",
+        "created_at": "2026-10-17T22:42:24",
+        "sources": [],
+        "tool_calls": [],
+        "usage": {}
+      },
+      {
+        "role": "assistant",
+        "content": "Зафиксировал: тикет T-1006 переоткрыт, комментарий о том, что проблема сохраняется на версии 4.2.1, добавлен. Оператор возьмёт его в работу повторно.\n\nПока ждёте — временное решение из базы: выгружайте отчёт в CSV и открывайте в Excel через «Данные → Из текста», либо разбейте период помесячно (таймаут экспорта 60 секунд).\n\nИсточники: errors.md",
+        "created_at": "2026-10-17T22:42:24",
+        "sources": [
+          {
+            "doc": "errors.md",
+            "score": 0.7941
+          },
+          {
+            "doc": "mobile.md",
+            "score": 0.7784
+          },
+          {
+            "doc": "account.md",
+            "score": 0.777
+          },
+          {
+            "doc": "errors.md",
+            "score": 0.7762
+          }
+        ],
+        "tool_calls": [
+          "add_ticket_comment",
+          "update_ticket_status"
+        ],
+        "usage": {
+          "prompt_tokens": 7312,
+          "completion_tokens": 291,
+          "total_tokens": 7603
+        }
+      },
+      {
+        "role": "user",
+        "content": "Временное решение помогло, ок.",
+        "created_at": "2026-10-17T22:42:44",
+        "sources": [],
+        "tool_calls": [],
+        "usage": {}
+      },
+      {
+        "role": "assistant",
+        "content": "Отлично, рад, что помогло! Если появятся другие вопросы — обращайтесь.",
+        "created_at": "2026-10-17T22:42:44",
+        "sources": [
+          {
+            "doc": "auth.md",
+            "score": 0.7744
+          },
+          {
+            "doc": "account.md",
+            "score": 0.7682
+          },
+          {
+            "doc": "integrations.md",
+            "score": 0.7651
+          },
+          {
+            "doc": "errors.md",
+            "score": 0.7651
+          }
+        ],
+        "tool_calls": [],
+        "usage": {
+          "prompt_tokens": 2344,
+          "completion_tokens": 23,
+          "total_tokens": 2367
+        }
+      }
+    ],
+    "created_at": "2026-10-17T22:41:26",
+    "closed_at": "2026-10-17T22:42:57"
+  }
+]

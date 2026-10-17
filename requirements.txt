@@ -1,0 +1,11 @@
+flet>=1.0.0
+flet-web>=1.0.0
+openai>=1.50.0
+sentence-transformers>=3.0.0
+faiss-cpu>=1.8.0
+fastmcp>=4.1.0
+uvicorn>=0.34.0
+fastapi>=0.115.0
+numpy>=1.26.0
+# torch ставится отдельно CPU-сборкой, см. README:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
