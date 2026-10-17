@@ -1,0 +1,67 @@
+# AI code review на self-hosted runner (ваш ПК) — вариант без Secrets и без
+# vendoring'а ассистента в репозиторий.
+#
+# Как работает: GitHub присылает задачу вашему локальному runner'у (служба на
+# ПК, исходящее соединение — открытые портов не нужно), и ревью выполняет
+# ЛОКАЛЬНАЯ установка ассистента: локальные .venv, модель e5, DEEPSEEK_API_KEY
+# из локального .env. В репозитории — только этот workflow-файл.
+#
+# Установка:
+#   1. Этот файл -> LifeProgect/.github/workflows/ai-review.yml (в main).
+#   2. Поправьте A1C_ASSISTANT_HOME ниже — путь к локальной папке ассистента.
+#   3. Ключ DeepSeek — в C:\...\assistant-1c\.env (строка DEEPSEEK_API_KEY=...).
+#      .env не коммитится (он в .gitignore), ключ остаётся только на ПК.
+#   4. На ПК: winget install GitHub.cli  (для комментария в PR)
+#   5. GitHub -> Settings -> Actions -> Runners -> New self-hosted runner ->
+#      Windows x64: скачать, config.cmd (URL и токен даст страница), при вопросе
+#      про службу — запуск от имени вашего пользователя.
+#
+# ВАЖНО: self-hosted runner выполняет workflow из репозитория на вашем ПК.
+# Для приватного репозитория, где коммитите только вы, это безопасно.
+# Если репозиторий станет публичным — runner отключить (чужой PR сможет
+# выполнить произвольный код на вашей машине).
+
+name: AI code review (self-hosted)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ai-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  # Путь к локальной установке ассистента — ПОМЕНЯЙТЕ под свой
+  A1C_ASSISTANT_HOME: C:\AI Advent\Week 7\assistant-1c
+
+jobs:
+  review:
+    runs-on: [self-hosted, windows]
+    steps:
+      - name: Checkout PR (полная история — нужна база для base...HEAD)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Индексация RAG + AI-ревью (локальный ассистент, локальный ключ)
+        shell: pwsh
+        working-directory: ${{ env.A1C_ASSISTANT_HOME }}
+        env:
+          A1C_DUMP_ROOT: ${{ github.workspace }}   # checkout кода PR
+          A1C_DATA_DIR: ${{ runner.temp }}\a1c-data  # индекс — во временный каталог
+        run: |
+          .\.venv\Scripts\python.exe -m indexer.indexer --full
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .\.venv\Scripts\python.exe -m agent.review --base "${{ github.base_ref }}" --out "$env:GITHUB_WORKSPACE\ai-review.md"
+
+      - name: Комментарий в PR
+        if: ${{ hashFiles('ai-review.md') != '' }}
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # автогенерируемый GitHub токен прогона, не ваш секрет
+        run: gh pr comment "${{ github.event.pull_request.number }}" --body-file ai-review.md

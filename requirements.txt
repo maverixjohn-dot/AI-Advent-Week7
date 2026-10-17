@@ -1,0 +1,12 @@
+# Ассистент разработчика 1С — зависимости
+flet>=1.0
+fastmcp>=2.10
+openai>=1.40
+GitPython>=3.1
+lxml>=5.0
+faiss-cpu>=1.8
+sentence-transformers>=3.0
+python-dotenv>=1.0
+# sentence-transformers тянет torch. Если нужен CPU-only torch (легче на ~1.5 ГБ):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   затем pip install -r requirements.txt

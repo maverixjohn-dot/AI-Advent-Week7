@@ -1,0 +1,71 @@
+# AI code review — GitHub Action для репозитория выгрузки конфигурации 1С.
+#
+# Установка: скопировать этот файл в репозиторий выгрузки (LifeProgect) как
+#   .github/workflows/ai-review.yml
+# Код ассистента при этом должен лежать в том же репозитории выгрузки в
+# каталоге tools/assistant-1c/ (копия этого проекта — см. README, раздел
+# «AI-ревью PR»).
+#
+# Триггер: открытие PR, новые коммиты в PR, переоткрытие.
+# Результат: комментарий в PR с текстом ревью (баги / архитектура / рекомендации).
+
+name: AI code review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write   # комментарий в PR
+
+concurrency:
+  group: ai-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true   # новый push в PR отменяет устаревшее ревью
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (полная история — нужна база для base...HEAD)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/assistant-1c/requirements.txt
+
+      - name: Torch CPU-only (без CUDA, экономия ~1.5 ГБ)
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Зависимости ассистента
+        run: pip install -r tools/assistant-1c/requirements.txt
+
+      - name: Кэш модели эмбеддингов (~2 ГБ, качается один раз)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-intfloat-multilingual-e5-large-v1
+
+      - name: Индексация RAG (на состоянии PR)
+        working-directory: tools/assistant-1c
+        env:
+          A1C_DUMP_ROOT: ${{ github.workspace }}
+        run: python -m indexer.indexer --full
+
+      - name: AI-ревью diff PR
+        working-directory: tools/assistant-1c
+        env:
+          A1C_DUMP_ROOT: ${{ github.workspace }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: python -m agent.review --base "${{ github.base_ref }}" --out "$GITHUB_WORKSPACE/ai-review.md"
+
+      - name: Комментарий в PR
+        if: ${{ hashFiles('ai-review.md') != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr comment "${{ github.event.pull_request.number }}" --body-file ai-review.md
